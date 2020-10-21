@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<friends>
+    <friend>
+        <name>Tinky-Winky</name>
+        <server_port>8080</server_port>
+    </friend>
+    <friend>
+        <name>Laa-Laa</name>
+        <server_port>8082</server_port>
+    </friend>
+    <friend>
+        <name>Po</name>
+        <server_port>8083</server_port>
+    </friend>
+</friends>

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<status>
+  <post>
+    <text>The first status posted by Tinky-Winky</text>
+    <timestamp>Mon 13 Apr 2020 08:04</timestamp>
+    <likes />
+  </post>
+  <post>
+    <text>This is the second status</text>
+    <timestamp>Fri 17 Apr 2020 21:30</timestamp>
+    <likes>
+      <like>Po</like>
+    </likes>
+  </post>
+  <post>
+    <text>The latest of Tinky-Winky's posts</text>
+    <timestamp>Thu 23 Apr 2020 16:18</timestamp>
+    <likes>
+      <like>Dipsy</like>
+      <like>Po</like>
+      <like>Laa-Laa</like>
+    </likes>
+  </post>
+  <post>
+    <text>Posting another status</text>
+    <timestamp>Mon 27 Apr 2020 14:15</timestamp>
+    <likes>
+      <like>Dipsy</like>
+    </likes>
+  </post>
+</status>

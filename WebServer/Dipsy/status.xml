@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+    <display-name>Servlets</display-name>
+    <servlet>
+        <servlet-name>countrynames</servlet-name>
+        <servlet-class>nz.ac.massey.cs.webtech.s_17351389.server.countrynames</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>countrynames</servlet-name>
+        <url-pattern>/countrynames</url-pattern>
+    </servlet-mapping>
+</web-app>

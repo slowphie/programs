@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Laa-Laa's Friend Status Updates</title>
+    <link rel="shortcut icon" href="#" />
+    <style>
+        #left, #right{
+            float: left;
+            width: 20%;
+        }
+
+        #posts{
+            display: block;
+            float: left;
+            width: 60%;
+            border: 1px solid rgb(221, 221, 221);
+            -moz-border-radius: 25px;
+            -webkit-border-radius: 25px;
+            border-radius: 25px;
+        }
+
+        h1{
+            text-align: center;
+        }
+        h5{
+            padding: 0px;
+            margin: 5px;
+            text-align: center;
+        }
+
+        img {
+            margin: 15px;
+            text-align: center;
+            width: 80%;
+        }
+        td {
+            padding: 30px;
+        }
+
+        .break {
+            border-bottom: 1px solid gray;
+        }
+
+        h4 {
+            text-align: center;
+        }
+
+
+    </style>
+</head>
+<body>
+
+
+<section id="left"><br></section>
+<section id="posts">
+    <h1>Latest Status Posts</h1>
+    <br>
+    <h4><a href="http://localhost:8082/update.html">Post a Status Update</a></h4>
+    <br>
+    <table>
+        <colgroup>
+            <col span="3">
+        </colgroup>
+        <tbody id="post">
+        </tbody>
+    </table>
+
+
+</section>
+<section id="right"><br></section>
+
+<script>
+var myName = "Laa-Laa";
+
+var xmlhttp = new XMLHttpRequest();
+
+xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        var parser = new DOMParser();
+        var xmlDoc = parser.parseFromString(this.responseText,"text/xml");
+        var photo = xmlDoc.getElementsByTagName("photo");
+        var names = xmlDoc.getElementsByTagName("name");
+        var statuses = xmlDoc.getElementsByTagName("text");
+        var timestamps = xmlDoc.getElementsByTagName("timestamp");
+        var likes = xmlDoc.getElementsByTagName("likes");
+
+        var x;
+        for (x = 0; x<xmlDoc.getElementsByTagName("post").length; x++){
+            // Calls the funciton to fill the html page with each status
+            post(photo[x].childNodes[0].nodeValue, names[x].childNodes[0].nodeValue, statuses[x].childNodes[0].nodeValue, timestamps[x].childNodes[0].nodeValue, likes[x].childElementCount, x);
+
+            var y;
+            var alreadyLiked = false;
+
+            // Checks if this server has already liked the post
+            if (likes[x].childElementCount>0) {
+                var postLikes = likes[x].getElementsByTagName("like");
+                // Running through each like to test against the name of this server
+                for (y = 0; y < postLikes.length; y++) {
+                    if (postLikes[y].childNodes[0].nodeValue === myName) {
+                        // Condition is true that this server has already liked the post
+                        alreadyLiked = true;
+                    }
+                }
+                if (alreadyLiked){
+                    liked(x);
+                }
+            }
+        }
+
+    }
+};
+xmlhttp.open("GET", "status.xml", true);
+xmlhttp.send();
+
+function post(image, name, status, timestamp, likes, postNumber){
+    // Creates the html code with the variable relating to the current post
+    var txt = "";
+    txt +=  "<tr><th colspan=\"3\" class=\"break\"> </th></tr>";
+    txt += "<tr><th rowspan=\"2\" style=\"width:25%\">";
+    txt += "<img src=\"data:image / png;base64," + image + " \" alt =\"profilephoto\">";
+    txt += "<h5 id='name"+postNumber+"'>"+name +"</h5><br></th>";
+    txt += "<td>" + status + "</td>";
+    txt += "<td><button id=\""+postNumber+"\" onclick='likePost(this.id)'>Like</button></td></tr>";
+    txt += "<td>--" + timestamp + "--</td>";
+    txt += "<td style=\"width:60px\" id = \"likes"+postNumber+"\">Likes: " +likes + "</td></tr>";
+
+    // Updates the html with the new status post
+    document.getElementById("post").innerHTML += txt;
+}
+
+function likePost(postNumber) {
+    // Function called when a post is liked
+    console.log("Liking Post...");
+
+    // Getting the name of the person of the post that is being liked
+    var name = document.getElementById("name"+postNumber).innerHTML;
+    var xhr = null;
+
+    if(window.XMLHttpRequest)
+        xhr = new XMLHttpRequest();
+
+        xhr.open("POST", "status.xml", true);
+
+        // Sending a post request with the name of the sevrer to add a like to
+        xhr.send("statusName= ///" + name);
+
+        // Getting the original like number and incrementing it by one, on refresh the number will be fetched from the sent file
+        var original = document.getElementById("likes"+postNumber).innerHTML.split(" ");
+        document.getElementById("likes"+postNumber).innerHTML = "Likes: "+(Number(original[1])+ 1);
+
+        // Disabling the like button as it has been liked
+        liked(postNumber)
+}
+
+function liked(postNumber){
+    // This function disables the like button and changes it from 'like' to 'liked' to signify the fact that it has been liked
+    var button = document.getElementById(postNumber);
+    button.disabled = true;
+    button.innerText = "Liked";
+}
+
+</script>
+
+</body>
+</html>

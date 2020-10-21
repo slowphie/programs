@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Tinky-Winky Update Page</title>
+    <link rel="shortcut icon" href="#" />
+        <style>
+        #left, #right{
+            float: left;
+            width: 20%;
+        }
+
+        #center{
+            display: block;
+            float: left;
+            width: 60%;
+            border: 1px solid rgb(221, 221, 221);
+            -moz-border-radius: 25px;
+            -webkit-border-radius: 25px;
+            border-radius: 25px;
+
+        }
+
+        h1{
+            text-align: center;
+        }
+
+
+        #break {
+            border-bottom: 1px solid gray;
+            width: 100%;
+        }
+
+        h4 {
+            text-align: center;
+        }
+
+        form {
+            text-align: center;
+        }
+
+
+    </style>
+    <script type="text/javascript">
+        var monthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var dayName = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+
+        function postData(){
+            console.log("Posting Status...");
+            var curDate = new Date();
+            var time = curDate.getHours() + ":" + curDate.getMinutes();
+            var date = dayName[curDate.getDay()] + " " +curDate.getDate() + " " +(monthName[curDate.getMonth()]) + " " + curDate.getFullYear() + " " + time;
+            var xhr = null;
+
+            if(window.XMLHttpRequest)
+	             xhr = new XMLHttpRequest();
+
+                 xhr.onreadystatechange = function(){
+                                             if(xhr.readyState == 4 && xhr.status == 200)
+                                                 console.log("Response");
+                                             else if(xhr.readyState == 4)
+                                                 console.log("Error: returned status code " + xhr.status + " " + xhr.statusText);
+                                         };
+
+                xhr.open("POST", "status.xml", true);
+
+
+                xhr.send("formText= ///" + document.getElementById("statusText").value + "///" + date);
+                clearData();
+        }
+        function clearData(){
+            document.getElementById("statusText").value = "";
+        }
+    </script>
+</head>
+<body>
+
+    <section id="left"><br></section>
+    <section id="center">
+        <h1>Post a Status Update</h1>
+        <br>
+        <h4><a href="http://localhost:8080/friends.html">See Friend's Latest Posts</a></h4>
+        <br>
+        <h1 id="break"></h1>
+
+        <form id="formData" name="formData" action="status.xml" method="post">
+            Status <input type="text" id="statusText" name="statusText" maxlength="200"/>
+            <br><br>
+            <input type="button" id="postBtn" name="postBtn" onclick="postData();" value="Post" />
+            <input type="button" id="resetbtn" name="resetBtn" onclick="clearData();" value="Reset" />
+            <br />
+        </form>
+        <br>
+
+
+    </section>
+    <section id="right"><br></section>
+
+</body>
+</html>

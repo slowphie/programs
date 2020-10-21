@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<status>
+  <post>
+    <text>This is a status by Laa-Laa</text>
+    <timestamp>Wed 15 Apr 16 2020 10:34</timestamp>
+    <likes>
+      <like>Dipsy</like>
+    </likes>
+  </post>
+  <post>
+    <text>This is Laa-Laa's most recent status</text>
+    <timestamp>Thu 16 Apr 2020 13:55</timestamp>
+    <likes>
+      <like>Po</like>
+      <like>Dipsy</like>
+      <like>Tinky-Winky</like>
+    </likes>
+  </post>
+  <post>
+    <text>A new status by Laa-Laa here now wow</text>
+    <timestamp>Tues 19 May 2020 22:17</timestamp>
+    <likes>
+      <like>Dipsy</like>
+      <like>Po</like>
+    </likes>
+  </post>
+</status>
