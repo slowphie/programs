@@ -1,0 +1,93 @@
+<html>
+
+<script type="text/javascript" src="../Common/gl-matrix-min.js"></script>
+<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+    attribute vec3 aVertexPosition;
+    attribute vec3 aVertexNormal;
+    attribute vec2 aTextureCoord;
+
+    uniform mat4 uMVMatrix;
+    uniform mat4 uPMatrix;
+    uniform mat4 uViewMatrix;
+
+    
+    varying vec3 mvPosition;
+    varying vec3 mvNormal;
+    varying vec2 vTextureCoord;
+
+    void main(void)
+    {
+        mvPosition = vec3(uMVMatrix * vec4(aVertexPosition, 1.0));
+        mvNormal = mat3(uMVMatrix) * aVertexNormal;
+        gl_Position = uPMatrix *uViewMatrix*  vec4(mvPosition, 1.0);
+        vTextureCoord = aTextureCoord;
+    }
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+    precision mediump float;
+
+    varying vec2 vTextureCoord;
+    uniform sampler2D uSampler;
+    
+    varying vec3 mvPosition;
+    varying vec3 mvNormal;
+    
+    uniform vec3 ambientProduct, diffuseProduct, shadowObjPos;
+    uniform float shadowObjRad;
+    uniform vec3 lightPosition;
+
+
+    void main(void)
+    {   
+        vec3 fColor = ambientProduct;
+
+
+        vec3 shadLight = lightPosition - shadowObjPos; //vector from the light source to the centre of the shadow object
+        vec3 fragLight = lightPosition - mvPosition; //vector from the light source to the current fragment
+        float cosShad = dot(normalize(shadLight), normalize(fragLight)); //cos of the angle between those two vectors
+
+        vec3 radLight = lightPosition - (shadowObjPos + shadowObjRad); //vector from the light source to the tangent point of the radius of the shadow object 
+        float cosFrag = dot(normalize(shadLight), normalize(radLight)); //cos of the angle between those two vectors
+
+        // values used to check whether the shadow object is infront of the other object, calculating the an equivalent to the length of the vector, if the frag vector is longer it is behind the shadow object
+        float fLen = length(mvPosition); 
+        float sLen = length(shadowObjPos);
+
+        vec3 diffProd;
+
+        // testing if the object casts a shadow onto the current fragment
+        if(cosShad>cosFrag&&fLen>sLen){
+            //in the shadow region so no diffuse light shown
+            diffProd = vec3(0,0,0);
+
+        } else {
+            diffProd = diffuseProduct;
+        }
+        
+        vec3 lightVec = lightPosition - mvPosition;
+        float cosLight = dot(normalize(lightVec), normalize(mvNormal));
+        if (cosLight > 0.0) {
+            vec3 reflectColor = diffProd * cosLight;
+            fColor += reflectColor / (0.5 + 0.5 * dot(lightVec, lightVec));
+        }
+        
+        gl_FragColor = vec4(fColor, 1.0) * texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
+    }
+</script>
+
+<script type="text/javascript" src="globe.js"></script>
+
+<body>
+    <div> <strong>View from:</strong> 
+        origin<input id="originView" type="radio" name="view" checked="true" />
+        external<input id="extView" type="radio" name="view" /><br>
+    </div>
+    <canvas id="canvas" style="border: none;" width="500" height="500"></canvas>
+
+</body>
+
+</html>
