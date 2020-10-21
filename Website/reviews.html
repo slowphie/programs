@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+   <head>
+   <!--
+
+      Silvereye Acoustics - Reviews 
+      Author: Sophie Coleman
+
+      Filename:         reviews.html
+
+   -->
+
+      <meta charset="UTF-8" />
+      <meta name="description" content="Sivereye Acoustics Webpage"/>
+      <meta name="author" content="Sophie Coleman"/>      
+      <title>Reviews | Silvereye Acoustics</title>
+
+      <link href="css/style.css" rel="stylesheet" type="text/css" />
+      <link rel="icon" href="./css/images/favicon.png">
+      <link href='https://fonts.googleapis.com/css?family=Arizonia' rel='stylesheet'>
+      <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+      <script src="css/jsFunctions.js"></script>
+
+   </head>
+
+   <body>
+    <div class="headingbar">
+      <div id="logo">
+        <a href="home.html"><img src="./css/images/banner.png" alt="bannerlogo"/></a>
+      </div>
+      <ul>
+         <li><a href="home.html">Home</a></li>
+         <li><a href="book.html">Book/Hire</a></li>
+         <li><a href="lessons.html">Lessons</a></li>
+         <li><a href="locations.html">Locations</a></li>
+         <li><a href="contact.html">Contact</a></li>
+         <li><a href="reviews.html">Reviews</a></li>
+         <li><a href="faq.html">FAQ</a></li>
+      </ul>
+
+    </div>
+    
+      <div class="main">
+        <h1>Customer Reviews...</h1>
+      </div>
+      
+      <div class="parallax"><div class="text">Silvereye Acoustics</div></div>
+      <div class = "main">
+        <p><span class="error"></span></p>
+        <div class="container">
+          <h2>Reviews posted by our customers</h2>
+          <blockquote>
+            <p class="reviewText">
+              I initially booked a lesson to check out the experience of having a lesson in nature. It was so fulfilling, I now have weekly lessons and have never been disappointed. I had guitar lessons when I was younger and am really enjoying getting back into it. Marilyn Mason is such a kind and understanding teacher, with great patience when I don't understand thing right away. I highly recommend Silvereye Acoustics.
+            </p>
+            <p class='reviewerInfo'>
+              &mdash; Joan Gillespie, 1 Sep 2019
+            </p>
+
+          </blockquote>
+
+          <blockquote>
+            <p class="reviewText">
+              Over the past few weeks I booked lessons in each of the locations offered, to try them all out. Each one has their own unique experience, but are all so special in their own ways. If I had to choose my favourite location it would have to be Lake Rotokura. It's such a private and peaceful environment to play my violin in.
+            </p>
+            <p class='reviewerInfo'>
+              &mdash; Mark Johnson, 29 Jul 2019
+            </p>
+          </blockquote>
+          <span id = "retrievingReviews"></span>
+          <script>
+            for(let i=0; i<localStorage.length; i+= 3) {
+              let block = document.createElement("BLOCKQUOTE");
+              let review = localStorage.getItem(localStorage.key(i)).split("*");
+
+              let reviewer = review[0];
+              let reviewer_text = review[1];
+              let date = review[2];
+              block.innerHTML = getSWithParameters(reviewer,reviewer_text,date);
+              document.getElementById("retrievingReviews").appendChild(block);
+            }
+          </script>
+
+          <span id="posted"></span> 
+
+          <form id='reviewForm' action="javascript:post()">
+
+            <br>
+            <h2>Post a review:</h2>
+            <p> Enter your details below:</p><br>
+            Name: <input type='text' id='name' ><br>
+            <br><br>
+
+            Review: <input type='text' id='review'><br>
+            <br><br>
+
+            <input type="submit" name="submit" value="Submit">  
+          </form>
+          <br><br>
+          <form action="collected_data.html">
+              <input type="submit" value="View/Delete All Review Submissions" />
+          </form>
+          <!-- <button onclick="post()">Submit</button>   -->
+
+        </div>
+
+
+          
+      <footer>
+          <div id = "footerLogo"><img src="./css/images/banner.png" alt="bannerlogo"/></div>
+          <p id="footerEmail"><a href="mailto:contact@silvereyeAcoustics.com?subject=Contact">contact@silvereyeAcoustics.com</a></p>
+
+          <address>254-178 Mangateitei Rd, Rangataua 4691</address>
+          <br>
+
+          <a href="http://validator.w3.org/check/referer" rel="nofollow" onclick="this.href='http://validator.w3.org/check?uri=' + 
+          document.URL" title="Validate as HTML5">HTML5 Validator </a>
+
+          <a href="https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fseat-webdev.massey.ac.nz%2Fsite1177%2F158258%2FAssignment3%2Fcss%2Fstyle.css&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en" title="Validate as CSS"> CSS Validator</a>
+
+
+      </footer>
+    </div>
+
+</body>
+</html>
